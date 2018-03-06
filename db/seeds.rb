@@ -7,7 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 
-User.find_or_create_by!(
+u = User.find_or_create_by!(
   first_name: "Joe",
   last_name: "O'Brien",
   username: "objo",
@@ -15,3 +15,17 @@ User.find_or_create_by!(
   city: "Westerville",
   state: "Ohio",
 )
+
+#
+# u.tweets.find_or_create_by!(message: "something about my food today")
+u.tweets.destroy_all
+
+source = [ Faker::Seinfeld, Faker::SiliconValley, Faker::StarWars, Faker::HarryPotter ]
+
+
+20.times do
+  u.tweets.create!(
+    message: source.sample.quote,
+    created_at: Faker::Date.between(2.months.ago,Time.now)
+  )
+end
